@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    /* Styles pour la visualisation */
+    .visualize-container {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    h2 {
+    font-size: 2.5rem;
+    font-weight: 600;
+    text-align: center;
+    color: var(--secondary);
+    margin-bottom: 3rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 2px;
+}
+
+
+    .visualize-container img {
+        max-width: 70%;
+        height: auto;
+        margin: 20px 0;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .visualize-form {
+        display: inline-block;
+        margin-bottom: 20px;
+    }
+
+    .visualize-form label {
+        font-weight: bold;
+        margin-right: 10px;
+    }
+
+    .visualize-form select,
+    .visualize-form button {
+        margin: 10px;
+        padding: 10px 15px;
+        font-size: 14px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    .visualize-form button {
+        background-color: #0078d4;
+        color: white;
+        cursor: pointer;
+        font-weight: bold;
+    }
+
+    .visualize-form button:hover {
+        background-color: #005ea6;
+    }
+
+    .download-btn {
+        margin-top: 20px;
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 14px;
+        color: white;
+        background-color: #09406d;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .download-btn:hover {
+        background-color: #0e2758;
+    }
+</style>
+
+<div class="visualize-container">
+    <h2>📊 Visualisation Interactive des Données</h2>
+
+    <form method="get" class="visualize-form">
+        <label for="chart_type"><b>Type de Graphique :</b></label>
+        <select name="chart_type" id="chart_type">
+            <option value="hist" {% if chart_type == 'hist' %}selected{% endif %}>Histogramme</option>
+            <option value="box" {% if chart_type == 'box' %}selected{% endif %}>Boîte à moustaches</option>
+            <option value="scatter" {% if chart_type == 'scatter' %}selected{% endif %}>Nuage de points</option>
+            <option value="bar" {% if chart_type == 'bar' %}selected{% endif %}>Diagramme en barres</option>
+            <option value="pairplot" {% if chart_type == 'pairplot' %}selected{% endif %}>Pairplot</option>
+            <option value="heatmap" {% if chart_type == 'heatmap' %}selected{% endif %}>Heatmap</option>
+            <option value="violin" {% if chart_type == 'violin' %}selected{% endif %}>Violin Plot</option>
+        </select>
+
+        <label for="column_x"><b>Colonne X :</b></label>
+        <select name="column_x" id="column_x">
+            <option value="" {% if not column_x %}selected{% endif %}>Sélectionnez une colonne</option>
+            {% for col in numeric_columns %}
+                <option value="{{ col }}" {% if column_x == col %}selected{% endif %}>{{ col }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="column_y"><b>Colonne Y :</b></label>
+        <select name="column_y" id="column_y">
+            <option value="" {% if not column_y %}selected{% endif %}>Sélectionnez une colonne</option>
+            {% for col in numeric_columns %}
+                <option value="{{ col }}" {% if column_y == col %}selected{% endif %}>{{ col }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">📈 Générer</button>
+    </form>
+
+    {% if error %}
+        <p style="color: red; font-weight: bold;">{{ error }}</p>
+    {% elif chart %}
+        <h3>📸 Aperçu du Graphique</h3>
+        <div>
+            <img src="{{ chart }}" alt="Graphique généré">
+        </div>
+        <div style="margin-top: 20px; text-align: center;">
+            <a href="{% url 'download_graph' %}?chart_type={{ chart_type }}&column_x={{ column_x }}&column_y={{ column_y }}" 
+               class="download-btn">
+               <i class="fa fa-download"></i> Télécharger le graphe
+            </a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

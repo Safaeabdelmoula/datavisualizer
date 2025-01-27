@@ -1,0 +1,363 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    /* Modern Luxury Design System */
+:root {
+    /* Core Colors */
+    --primary: #2d5af7;
+    --primary-dark: #1e3fb0;
+    --secondary: #272d3d;
+    --accent: #ffd700;
+    
+    /* Neutral Palette */
+    --gray-50: #f9fafb;
+    --gray-100: #f3f4f6;
+    --gray-200: #e5e7eb;
+    --gray-300: #d1d5db;
+    --gray-400: #9ca3af;
+    --gray-900: #111827;
+    
+    /* Semantic Colors */
+    --success: #059669;
+    --error: #dc2626;
+    
+    /* Shadows */
+    --shadow-soft: 0 0 20px rgba(0, 0, 0, 0.05);
+    --shadow-strong: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Global Styles */
+main {
+    max-width: 1200px;
+    margin: 3rem auto;
+    padding: 0 2rem;
+}
+
+h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-align: center;
+    color: var(--secondary);
+    margin-bottom: 3rem;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    border-radius: 2px;
+}
+
+.form-container {
+    background: white;
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow-strong);
+    backdrop-filter: blur(20px);
+    margin-bottom: 3rem;
+    border: 1px solid var(--gray-200);
+}
+
+/* Form Elements */
+label {
+    display: block;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+input[type="number"],
+select {
+    width: 100%;
+    padding: 1rem 1.25rem;
+    border: 2px solid var(--gray-200);
+    border-radius: 12px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background-color: var(--gray-50);
+    color: var(--gray-900);
+    margin-bottom: 2rem;
+}
+
+input[type="number"]:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(12, 119, 190, 0.1);
+    background-color: white;
+}
+
+/* Custom Select Styling */
+select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%23666666'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.5rem;
+    padding-right: 3rem;
+}
+
+/* Buttons Container */
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* Luxury Buttons */
+button {
+    flex: 1;
+    padding: 1.2rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1rem;
+    color: white;
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    box-shadow: var(--shadow-soft);
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-strong);
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+}
+
+button i {
+    font-size: 1.1rem;
+}
+
+/* Results Container */
+.results {
+    background: white;
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-top: 2rem;
+    box-shadow: var(--shadow-soft);
+    border: 1px solid var(--gray-200);
+    transition: all 0.3s ease;
+}
+
+.results:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-strong);
+}
+
+.results h3 {
+    font-size: 1.5rem;
+    color: var(--secondary);
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--gray-200);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.results ul {
+    list-style: none;
+    padding: 0;
+}
+
+.results li {
+    padding: 1rem 1.5rem;
+    margin-bottom: 0.75rem;
+    background: var(--gray-50);
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.2s ease;
+}
+
+.results li:hover {
+    background: var(--gray-100);
+    transform: scale(1.01);
+}
+
+.results li strong {
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* Statistics Table */
+.stats-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-top: 1rem;
+}
+
+.stats-table th,
+.stats-table td {
+    padding: 1.25rem;
+    text-align: left;
+    border-bottom: 1px solid var(--gray-200);
+}
+
+.stats-table th {
+    background: var(--secondary);
+    color: white;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.stats-table tr:first-child th {
+    border-radius: 10px 10px 0 0;
+}
+
+.stats-table tr:hover td {
+    background: var(--gray-50);
+}
+
+/* Error Message */
+.error {
+    background-color: #fee2e2;
+    border-left: 4px solid var(--error);
+    color: var(--error);
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    main {
+        padding: 1rem;
+        margin: 1rem;
+    }
+
+    .form-container {
+        padding: 1.5rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    button {
+        width: 100%;
+    }
+
+    .results {
+        padding: 1.5rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.results {
+    animation: fadeIn 0.5s ease-out;
+}
+</style>
+
+<main>
+    <h2>📊 Analyse des Données</h2>
+    <form method="post" class="form-container">
+        {% csrf_token %}
+        
+        <!-- Sélection de l'Index de Ligne -->
+        <label for="line-index">📌 Index de la ligne :</label>
+        <input type="number" id="line-index" name="line-index" placeholder="Ex : 0, 1, 2">
+
+    
+        <!-- Sélection de la Colonne -->
+        <label for="column-name">🔑 Sélectionnez une colonne numérique :</label>
+        <select id="column-name" name="column-name">
+            <option value="" selected disabled>-- Sélectionner une colonne --</option>
+            {% if column_names %}
+                {% for column in column_names %}
+                    <option value="{{ column }}">{{ column }}</option>
+                {% endfor %}
+            {% else %}
+                <option value="" disabled>Aucune colonne numérique disponible</option>
+            {% endif %}
+        </select>
+
+        <!-- Boutons d'Action -->
+        <div class="form-actions">
+            <button type="submit" name="action" value="data">
+                <i class="fa-solid fa-table"></i> Afficher les Données
+            </button>
+            <button type="submit" name="action" value="stats">
+                <i class="fa-solid fa-chart-simple"></i> Afficher les Statistiques
+            </button>
+        </div>
+    </form>
+
+    <!-- Message d'erreur -->
+    {% if error_message %}
+        <p class="error">{{ error_message }}</p>
+    {% endif %}
+
+    <!-- Affichage des Données de la Ligne -->
+    {% if line_data %}
+        <div class="results">
+            <h3>📋 Données de la Ligne :</h3>
+            <ul>
+                {% for key, value in line_data.items %}
+                    <li><strong>{{ key }}:</strong> {{ value }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <!-- Affichage des Statistiques de la Colonne -->
+    {% if column_stats %}
+        <div class="results">
+            <h3>📊 Statistiques de la Colonne '{{ column_name }}':</h3>
+            {% if column_stats is string %}
+                <p>{{ column_stats }}</p>
+            {% else %}
+                <table class="stats-table">
+                    {% for key, value in column_stats.items %}
+                        <tr>
+                            <th>{{ key }}</th>
+                            <td>{{ value }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        </div>
+    {% endif %}
+</main>
+{% endblock %}

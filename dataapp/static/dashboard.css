@@ -1,0 +1,20 @@
+/* dashboard.css */
+.dashboard-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.card {
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    text-align: center;
+    width: 30%;
+}
+
+.card h3 {
+    margin: 10px 0;
+    font-size: 18px;
+}

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Système de Gestion de Données{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #0e2758;
+            color: #333;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #0078d4, #005ea6);
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #004080;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 12px 20px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #005ea6;
+            border-radius: 5px;
+        }
+
+        /* Main Content */
+        main {
+            padding: 30px;
+            min-height: 70vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, #0078d4, #005ea6);
+            color: #fff;
+            text-align: center;
+            padding: 5px 0;
+            margin-top: 40px;
+            font-size: 14px;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 10px 20px;
+            margin-top: 15px;
+            font-size: 14px;
+            font-weight: 500;
+            color: white;
+            background-color: #09406d;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn i {
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            background-color: #0e2758;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+            }
+
+            nav a {
+                margin: 5px 0;
+            }
+
+            header h1 {
+                font-size: 22px;
+            }
+
+            main {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1><i class="fa-solid fa-database"></i> Système de Gestion et Visualisation de Données</h1>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <a href="{% url 'upload' %}"><i class="fa-solid fa-upload"></i> Télécharger</a>
+        <a href="{% url 'index' %}"><i class="fa-solid fa-search"></i> Indexation</a>
+        <a href="{% url 'stats' %}"><i class="fa-solid fa-chart-pie"></i> Statistiques</a>
+        <a href="{% url 'visualize' %}"><i class="fa-solid fa-chart-line"></i> Visualisations</a>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <div class="container">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Système de Gestion et Visualisation de Données. Tous droits réservés.</p>
+    </footer>
+</body>
+</html>

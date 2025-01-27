@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    .upload-container {
+        text-align: center;
+        margin: 30px auto;
+    }
+    .upload-container h2 {
+        font-size: 24px;
+    }
+    .custom-file-upload {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        text-align: center;
+        color: white;
+        background-color: #1f5594;
+        border: 2px solid #1f5594;
+        border-radius: 5px;
+        margin-top: 15px;
+        transition: all 0.3s ease;
+    }
+    .custom-file-upload:hover {
+        background-color: white;
+        color: #09406d;
+    }
+    input[type="file"] {
+        display: none;
+    }
+    .file-info {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+    }
+    .btn-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 10px;
+        margin-top: 20px;
+    }
+    .btn {
+        padding: 8px 16px;
+        background-color: #09406d;
+        color: white;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        font-size: 14px;
+        transition: background-color 0.3s;
+    }
+    .btn:hover {
+        background-color: #0e2758;
+    }
+    .output-container {
+        margin-top: 30px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        text-align: left;
+        overflow-x: auto;
+    }
+    .output-container h3 {
+        margin-bottom: 10px;
+    }
+    .output-container table {
+        width: auto;
+        max-width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+    }
+    .output-container table th, .output-container table td {
+        border: 1px solid #ddd;
+        padding: 6px;
+        text-align: center;
+    }
+    .sidebar {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        margin: 20px 0;
+    }
+</style>
+<div class="upload-container">
+    <h2>📂 Télécharger votre fichier CSV</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <label for="file-upload" class="custom-file-upload">📁 Parcourir</label>
+        <input id="file-upload" type="file" name="file" accept=".csv" required>
+        <br><br>
+        <button type="submit" class="btn">Importer</button>
+    </form>
+    {% if file_name %}
+        <p class="file-info">📝 Fichier importé : <strong>{{ file_name }}</strong></p>
+    {% endif %}
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+</div>
+{% if request.session.data %}
+<div class="sidebar">
+    <h3>🛠️ Options d'affichage :</h3>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="btn-container">
+            <button name="action" value="shape" class="btn">📏 Afficher Shape</button>
+            <button name="action" value="head" class="btn">📄 Afficher les 10 premières lignes</button>
+            <button name="action" value="columns" class="btn">📝 Afficher les Colonnes</button>
+            <button name="action" value="data" class="btn">🔍 Afficher toutes les données</button>
+        </div>
+    </form>
+</div>
+{% if action %}
+    <div class="output-container">
+        {% if action == 'shape' %}
+            <h3>📏 Shape du Dataset</h3>
+            <p>{{ output }}</p>
+        {% elif action == 'head' %}
+            <h3>📄 10 Premières Lignes du Dataset</h3>
+            <div style="overflow-x: auto;">
+                {{ output|safe }}
+            </div>
+        {% elif action == 'columns' %}
+            <h3>📝 Liste des Colonnes</h3>
+            <ul>
+                {% for col in output %}
+                    <li>{{ col }}</li>
+                {% endfor %}
+            </ul>
+        {% elif action == 'data' %}
+            <h3>🔍 Données Complètes du Dataset</h3>
+            <div style="overflow-x: auto;">
+                {{ output|safe }}
+            </div>
+        {% endif %}
+    </div>
+{% endif %}
+{% endif %}
+{% endblock %}
