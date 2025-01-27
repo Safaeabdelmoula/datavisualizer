@@ -11,9 +11,9 @@
 
 
 ## **Technologies Utilisées**
-- **Backend:**Django
+- **Backend:** Django
 - **Frontend :** HTML ,CSS
-- **Analyse des Données:**Pandas
+- **Analyse des Données:** Pandas
 - **Visualisation :** Matplotlib, Seaborn  
 - **Base de Données :** SQLite (par défaut de Django)  
 
@@ -22,8 +22,8 @@
 1. **Clonez le repository:**
 
 ```bash 
-clone https://github.com/safae04/data_visualizer.git
-cd data-visualizer 
+clone https://github.com/Safaeabdelmoula/datavisualizer.git
+cd datavisualizer 
 ```
 
 2. **Créez un environnement virtuel :**
